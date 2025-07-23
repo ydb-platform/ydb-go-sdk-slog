@@ -1,0 +1,21 @@
+version: '3.7'
+
+services:
+  ydb:
+    image: ydbplatform/local-ydb:latest
+    container_name: ydb-local
+    platform: linux/amd64
+    hostname: localhost
+    ports:
+      - "2135:2135"   # gRPC TLS
+      - "2136:2136"   # gRPC without TLS
+      - "8765:8765"   # Monitoring port
+      - "8766:8765"   # Альтернативный доступ к web-интерфейсу
+      - "9092:9092"   # Kafka proxy (если нужен)
+    environment:
+      - GRPC_TLS_PORT=2135
+      - GRPC_PORT=2136
+      - MON_PORT=8765
+      - YDB_KAFKA_PROXY_PORT=9092
+      - YDB_USE_POSIX_IO=1
+    restart: unless-stopped
