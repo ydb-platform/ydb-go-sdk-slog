@@ -20,7 +20,7 @@ func (a adapter) Log(ctx context.Context, msg string, fields ...log.Field) {
 		l = l.WithGroup(name)
 	}
 
-	l.LogAttrs(ctx, Level(ctx), msg, Fields(fields)...)
+	l.LogAttrs(ctx, Level(ctx), msg, Fields(append(log.FieldsFromContext(ctx), fields...))...)
 }
 
 func fieldToAttr(field log.Field) slog.Attr {
